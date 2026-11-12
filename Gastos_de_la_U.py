@@ -1,4 +1,6 @@
 """ESTE ARCHIVO SE UTILIZARÁ PARA COMENZAR EL PROYECTO"""
+from pathlib import Path
+import json
 def saludo():
     print("BIENVENIDO A TU HOJA DE GASTOS, DONDE PODRAS MANEJAR TU DINERO COMO UNIVERSITARIO")
     
@@ -20,7 +22,7 @@ tipos = ("ingreso", "gasto")
 
 def pedir_tipo():
     while True:
-        tipo = input("Ingresa el tipo (ingreso/gasto: )")
+        tipo = input("Ingresa el tipo (ingreso/gasto: )").lower()
         if tipo in tipos:
             return tipo
         print("Dato inválido")
@@ -64,6 +66,25 @@ def calcular_disponible(movimientos):
         else:
             disponible -= movimiento["monto"]
     return disponible
+
+
+def cargar_datos(path):
+    """Devuelve los movimientos guardados o una lista vacía."""
+    if path.exists():
+        contents = path.read_text()
+        movimientos = json.loads(contents)
+        return movimientos
+    else:
+        print("No hay información previa.")
+        return []
+
+
+def guardar_datos(movimientos, path):
+    """Guarda la lista de movimientos en el archivo."""
+    contents = json.dumps(movimientos)
+    path.write_text(contents)
+    print("Datos guardados.")
+
 
 def mostrar_movimientos(lista):
     for movimiento in lista:
@@ -171,8 +192,8 @@ def mostrar_menu():
     
 def main():
     saludo()
-    pass
-    pass
+    path = Path("movimientos.json")  
+    movimientos = cargar_datos(path)
     if movimientos:
         print("\nMovimientos orevios:")
         mostrar_movimientos(movimientos)
@@ -191,12 +212,13 @@ def main():
             consultar_gastos(movimientos)
         elif opcion == "3":
             resumen_del_mes(movimientos)
-        elif opcion == "4":
-            pass
+        elif opcion == '4':
+            guardar_datos(movimientos, path)
         else:
-            pass
+            guardar_datos(movimientos, path)
             print("Se ha cerrado el sistema.")
-            activo = False   
+            activo = False
+         
 main()                                     
             
                  
