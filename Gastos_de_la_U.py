@@ -1,6 +1,6 @@
 """ESTE ARCHIVO SE UTILIZARÁ PARA COMENZAR EL PROYECTO"""
 #Parte Path y json
-from pathlib import g
+from pathlib import Path
 import json 
 def saludo():
     print("BIENVENIDO A TU HOJA DE GASTOS, DONDE PODRAS MANEJAR TU DINERO COMO UNIVERSITARIO")
